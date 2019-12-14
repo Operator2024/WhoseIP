@@ -1,4 +1,4 @@
-## whose_ips
+## WhoseIP
 
 [![Build Status](https://travis-ci.com/Operator2024/whose_ips.svg?branch=master)](https://travis-ci.com/Operator2024/whose_ips)
 
