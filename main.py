@@ -1,12 +1,13 @@
-from ipinfo import getHandler
-from json import load
-from csv import DictWriter
-import re
 import os
+import re
+from csv import DictWriter
+from json import load
+
+from ipinfo import getHandler
 
 
 def load_ips():
-    with open("source/shopsv2.json", "r", encoding="utf8") as src_ip_file:
+    with open("src/shopsv2.json", "r", encoding="utf8") as src_ip_file:
         ip_list = load(fp=src_ip_file)
     return ip_list
 
@@ -39,7 +40,7 @@ def prepare_to_csv(chunk):
         isp_info = ''
 
         for key in chunk[number_shop].keys():
-            if isp_info is not '':
+            if isp_info != '':
                 isp_info += ' /\n '
             if key in ["IP1", "IP2"]:
                 isp_info += chunk[number_shop][key]
@@ -61,7 +62,7 @@ if __name__ == '__main__':
     в зависимости от количества IP адресов на магазине.
     
     new_ip_dict - содержит преобразованный список ip_dict к виду:
-    key - номер магазина: value - словарь по номеру магазина добавленными к ключами IP адресов названиями провадеров.
+    key - номер магазина: value - словарь по номеру магазина добавленными к ключами IP адресов названиями провайдеров.
     """
 
     ip_dict = load_ips()
@@ -69,10 +70,13 @@ if __name__ == '__main__':
     for item in ip_dict:
         new_ip_dict[int(item.get("shop"))] = item
 
+    with open("config.json") as config:
+        cfg = load(config)
+
     for j in sorted(new_ip_dict):
         for k in new_ip_dict[j].keys():
             if k in ["IP1", "IP2"]:
-                detail = whois_isp(ip_addr=new_ip_dict[j][k])
+                detail = whois_isp(ip_addr=new_ip_dict[j][k], token=cfg["token"])
                 new_ip_dict[j][k] = f"{re.sub('AS.{1,6}', '', detail.org)} - {detail.ip}"
 
     prepare_to_csv(new_ip_dict)

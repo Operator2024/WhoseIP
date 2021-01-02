@@ -1,6 +1,10 @@
-## WhoseIP
+## whose_ips
 
 [![Build Status](https://travis-ci.com/Operator2024/whose_ips.svg?branch=master)](https://travis-ci.com/Operator2024/whose_ips)
 
-WhoseIP is a helps by determine who own IP address and
-save received info to csv format.
+WhoseIP is a helps by determine who own IP address and save received info to csv format.
+
+## License
+
+See the [LICENSE](LICENSE) file for license rights and limitations (MIT).
+
